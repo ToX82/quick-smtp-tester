@@ -3,20 +3,59 @@ $status = init();
 $config = get_config();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple tool to test SMTP email settings">
+    <meta name="author" content="Quick SMTP Tester">
     <title>Quick SMTP Tester</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📧</text></svg>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #2b3035;
+            --dark-text: #fff;
+        }
+        [data-bs-theme="dark"] .bg-light {
+            background-color: var(--dark-bg) !important;
+        }
+        [data-bs-theme="dark"] .text-dark {
+            color: var(--dark-text) !important;
+        }
+        .theme-switch {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+        .btn-primary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+        }
+    </style>
 </head>
 <body>
-    <div class="container py-3">
-        <h2 class="text-center mb-3">📧 Quick SMTP Tester</h2>
-        <h6 class="text-center mb-3">Because testing SMTP settings should be quick (and easy)</h6>
+    <div class="theme-switch">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="themeSwitch" aria-label="Toggle dark mode">
+            <label class="form-check-label" for="themeSwitch">
+                <span class="d-none d-sm-inline">Dark Mode</span>
+            </label>
+        </div>
+    </div>
+
+    <main class="container py-3">
+        <header class="text-center mb-4">
+            <h1 class="h2 mb-3">📧 Quick SMTP Tester</h1>
+            <p class="h6 text-muted">Because testing SMTP settings should be quick (and easy)</p>
+        </header>
+
         <div class="alert alert-warning py-2" role="alert">
-            ⚠️ Remember to remove this file after testing for security reasons!
+            <strong>⚠️ Security Notice:</strong> Remember to remove this file after testing!
         </div>
 
         <form method="post" class="mb-3 p-3 bg-light rounded shadow-sm">
@@ -77,7 +116,7 @@ $config = get_config();
                     <label for="smtpPass" class="form-label small fw-bold">SMTP Password</label>
                     <div class="input-group input-group-sm">
                         <input type="password" class="form-control" id="smtpPass" name="smtpPass" required value="<?php echo htmlspecialchars(isset($config['smtpPass']) ? $config['smtpPass'] : ''); ?>" placeholder="Your SMTP password">
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">Show</button>
+                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()" aria-label="Toggle password visibility">Show</button>
                     </div>
                 </div>
 
@@ -89,18 +128,18 @@ $config = get_config();
             <?php if ($status !== null) { ?>
                 <div class="mt-3 alert <?php echo strpos($status, 'success') !== false ? 'alert-success' : 'alert-danger'; ?> py-2 mb-0">
                     <?php if (strpos($status, 'success') !== false) { ?>
-                        🎉 Great! Your test email was sent successfully!
+                        <p class="mb-0">🎉 Great! Your test email was sent successfully!</p>
                     <?php } else { ?>
                         <div class="mb-2">😕 Oops! Something went wrong:</div>
                         <pre class="mb-2 small bg-light p-2 rounded"><?php echo htmlspecialchars($status); ?></pre>
                         <div class="small text-muted mb-2">Debug information:</div>
                         <pre class="mb-2 small bg-light p-2 rounded"><?php echo htmlspecialchars(print_r(error_get_last(), true)); ?></pre>
-                        <a href="https://www.perplexity.ai/search/?q=<?php echo urlencode($status) . urlencode(print_r(error_get_last(), true)); ?>" target="_blank" class="btn btn-sm btn-primary">Find a Solution</a>
+                        <a href="https://www.perplexity.ai/search/?q=<?php echo urlencode($status) . urlencode("\n" . print_r(error_get_last(), true)); ?>" target="_blank" class="btn btn-sm btn-primary">Find a Solution</a>
                     <?php } ?>
                 </div>
             <?php } ?>
         </form>
-    </div>
+    </main>
 
     <script>
     function togglePassword() {
@@ -114,6 +153,31 @@ $config = get_config();
             btn.textContent = 'Show';
         }
     }
+
+    // Theme switcher initialization
+    const themeSwitch = document.getElementById('themeSwitch');
+    const htmlElement = document.documentElement;
+
+    // Recupera il tema salvato o usa il tema di sistema come fallback
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    htmlElement.setAttribute('data-bs-theme', savedTheme);
+    themeSwitch.checked = savedTheme === 'dark';
+
+    // Listen for system theme preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            const theme = e.matches ? 'dark' : 'light';
+            htmlElement.setAttribute('data-bs-theme', theme);
+            themeSwitch.checked = e.matches;
+        }
+    });
+
+    // Handle manual theme toggle
+    themeSwitch.addEventListener('change', function() {
+        const theme = this.checked ? 'dark' : 'light';
+        htmlElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+    });
     </script>
 </body>
 </html>
