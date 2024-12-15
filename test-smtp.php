@@ -23,60 +23,60 @@ $config = get_config();
             <div class="row g-2">
                 <div class="col-md-6">
                     <label for="from" class="form-label small fw-bold">From Address</label>
-                    <input type="email" class="form-control form-control-sm" id="from" name="from" required value="<?= htmlspecialchars($config['from'] ?? '') ?>" placeholder="Your email address">
+                    <input type="email" class="form-control form-control-sm" id="from" name="from" required value="<?php echo htmlspecialchars(isset($config['from']) ? $config['from'] : ''); ?>" placeholder="Your email address">
                 </div>
                 <div class="col-md-6">
                     <label for="to" class="form-label small fw-bold">To Address</label>
-                    <input type="email" class="form-control form-control-sm" id="to" name="to" required value="<?= htmlspecialchars($config['to'] ?? '') ?>" placeholder="Where to send the test?">
+                    <input type="email" class="form-control form-control-sm" id="to" name="to" required value="<?php echo htmlspecialchars(isset($config['to']) ? $config['to'] : ''); ?>" placeholder="Where to send the test?">
                 </div>
 
                 <div class="col-12">
                     <label for="subject" class="form-label small fw-bold">Email Subject</label>
-                    <input type="text" class="form-control form-control-sm" id="subject" name="subject" required value="<?= htmlspecialchars($config['subject'] ?? '') ?>" placeholder="Enter your subject line">
+                    <input type="text" class="form-control form-control-sm" id="subject" name="subject" required value="<?php echo htmlspecialchars(isset($config['subject']) ? $config['subject'] : ''); ?>" placeholder="Enter your subject line">
                 </div>
 
                 <div class="col-12">
                     <label for="message" class="form-label small fw-bold">Email Content</label>
-                    <textarea class="form-control form-control-sm" id="message" name="message" rows="3" required placeholder="Write your test message here"><?= htmlspecialchars($config['message'] ?? '') ?></textarea>
+                    <textarea class="form-control form-control-sm" id="message" name="message" rows="3" required placeholder="Write your test message here"><?php echo htmlspecialchars(isset($config['message']) ? $config['message'] : ''); ?></textarea>
                 </div>
 
                 <div class="col-md-3">
                     <label for="smtpHost" class="form-label small fw-bold">SMTP Server</label>
-                    <input type="text" class="form-control form-control-sm" id="smtpHost" name="smtpHost" required value="<?= htmlspecialchars($config['smtpHost'] ?? '') ?>" placeholder="e.g. smtp.myhost.com">
+                    <input type="text" class="form-control form-control-sm" id="smtpHost" name="smtpHost" required value="<?php echo htmlspecialchars(isset($config['smtpHost']) ? $config['smtpHost'] : ''); ?>" placeholder="e.g. smtp.myhost.com">
                 </div>
                 <div class="col-md-3">
                     <label for="smtpPort" class="form-label small fw-bold">Port</label>
                     <select class="form-select form-select-sm" id="smtpPort" name="smtpPort" required>
-                        <option value="587" <?= ($config['smtpPort'] ?? '') == 587 ? 'selected' : '' ?>>587 (TLS - Recommended)</option>
-                        <option value="465" <?= ($config['smtpPort'] ?? '') == 465 ? 'selected' : '' ?>>465 (SSL)</option>
-                        <option value="25" <?= ($config['smtpPort'] ?? '') == 25 ? 'selected' : '' ?>>25 (Standard)</option>
-                        <option value="2525" <?= ($config['smtpPort'] ?? '') == 2525 ? 'selected' : '' ?>>2525 (Alternative)</option>
+                        <option value="587" <?php echo (isset($config['smtpPort']) && $config['smtpPort'] == 587) ? 'selected' : ''; ?>>587 (TLS - Recommended)</option>
+                        <option value="465" <?php echo (isset($config['smtpPort']) && $config['smtpPort'] == 465) ? 'selected' : ''; ?>>465 (SSL)</option>
+                        <option value="25" <?php echo (isset($config['smtpPort']) && $config['smtpPort'] == 25) ? 'selected' : ''; ?>>25 (Standard)</option>
+                        <option value="2525" <?php echo (isset($config['smtpPort']) && $config['smtpPort'] == 2525) ? 'selected' : ''; ?>>2525 (Alternative)</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="security" class="form-label small fw-bold">Security</label>
                     <select class="form-select form-select-sm" id="security" name="security" required>
-                        <option value="tls" <?= ($config['security'] ?? '') == 'tls' ? 'selected' : '' ?>>TLS (Recommended)</option>
-                        <option value="ssl" <?= ($config['security'] ?? '') == 'ssl' ? 'selected' : '' ?>>SSL</option>
-                        <option value="none" <?= ($config['security'] ?? '') == 'none' ? 'selected' : '' ?>>None</option>
+                        <option value="tls" <?php echo (isset($config['security']) && $config['security'] == 'tls') ? 'selected' : ''; ?>>TLS (Recommended)</option>
+                        <option value="ssl" <?php echo (isset($config['security']) && $config['security'] == 'ssl') ? 'selected' : ''; ?>>SSL</option>
+                        <option value="none" <?php echo (isset($config['security']) && $config['security'] == 'none') ? 'selected' : ''; ?>>None</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <label for="allow_self_signed" class="form-label small fw-bold">Self-signed Certificates</label>
                     <select class="form-select form-select-sm" id="allow_self_signed" name="allow_self_signed" required>
-                        <option value="0" <?= ($config['allow_self_signed'] ?? '') === false ? 'selected' : '' ?>>Don't allow</option>
-                        <option value="1" <?= ($config['allow_self_signed'] ?? '') === true ? 'selected' : '' ?>>Allow</option>
+                        <option value="0" <?php echo (isset($config['allow_self_signed']) && $config['allow_self_signed'] === false) ? 'selected' : ''; ?>>Don't allow</option>
+                        <option value="1" <?php echo (isset($config['allow_self_signed']) && $config['allow_self_signed'] === true) ? 'selected' : ''; ?>>Allow</option>
                     </select>
                 </div>
 
                 <div class="col-md-6">
                     <label for="smtpUser" class="form-label small fw-bold">SMTP Username</label>
-                    <input type="text" class="form-control form-control-sm" id="smtpUser" name="smtpUser" required value="<?= htmlspecialchars($config['smtpUser'] ?? '') ?>" placeholder="Your SMTP username">
+                    <input type="text" class="form-control form-control-sm" id="smtpUser" name="smtpUser" required value="<?php echo htmlspecialchars(isset($config['smtpUser']) ? $config['smtpUser'] : ''); ?>" placeholder="Your SMTP username">
                 </div>
                 <div class="col-md-6">
                     <label for="smtpPass" class="form-label small fw-bold">SMTP Password</label>
                     <div class="input-group input-group-sm">
-                        <input type="password" class="form-control" id="smtpPass" name="smtpPass" required value="<?= htmlspecialchars($config['smtpPass'] ?? '') ?>" placeholder="Your SMTP password">
+                        <input type="password" class="form-control" id="smtpPass" name="smtpPass" required value="<?php echo htmlspecialchars(isset($config['smtpPass']) ? $config['smtpPass'] : ''); ?>" placeholder="Your SMTP password">
                         <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">Show</button>
                     </div>
                 </div>
@@ -87,15 +87,15 @@ $config = get_config();
             </div>
 
             <?php if ($status !== null) { ?>
-                <div class="mt-3 alert <?= str_contains($status, 'success') ? 'alert-success' : 'alert-danger' ?> py-2 mb-0">
-                    <?php if (str_contains($status, 'success')) { ?>
+                <div class="mt-3 alert <?php echo strpos($status, 'success') !== false ? 'alert-success' : 'alert-danger'; ?> py-2 mb-0">
+                    <?php if (strpos($status, 'success') !== false) { ?>
                         🎉 Great! Your test email was sent successfully!
                     <?php } else { ?>
                         <div class="mb-2">😕 Oops! Something went wrong:</div>
-                        <pre class="mb-2 small bg-light p-2 rounded"><?= htmlspecialchars($status) ?></pre>
+                        <pre class="mb-2 small bg-light p-2 rounded"><?php echo htmlspecialchars($status); ?></pre>
                         <div class="small text-muted mb-2">Debug information:</div>
-                        <pre class="mb-2 small bg-light p-2 rounded"><?= htmlspecialchars(print_r(error_get_last(), true)) ?></pre>
-                        <a href="https://www.perplexity.ai/search/?q=<?= urlencode($status) ?><?= urlencode(print_r(error_get_last(), true)) ?>" target="_blank" class="btn btn-sm btn-primary">🔍 Find a Solution</a>
+                        <pre class="mb-2 small bg-light p-2 rounded"><?php echo htmlspecialchars(print_r(error_get_last(), true)); ?></pre>
+                        <a href="https://www.perplexity.ai/search/?q=<?php echo urlencode($status) . urlencode(print_r(error_get_last(), true)); ?>" target="_blank" class="btn btn-sm btn-primary">Find a Solution</a>
                     <?php } ?>
                 </div>
             <?php } ?>
@@ -138,7 +138,7 @@ $config = get_config();
  *
  * @return string|null Returns error message on failure, success message on success, or null if no submission
  */
-function init(): string|null
+function init()
 {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -161,7 +161,18 @@ function init(): string|null
     $allow_self_signed = filter_input(INPUT_POST, 'allow_self_signed', FILTER_VALIDATE_BOOLEAN);
 
     // Save cleaned data in session
-    $config = compact('from', 'to', 'subject', 'message', 'smtpHost', 'smtpPort', 'smtpUser', 'smtpPass', 'security', 'allow_self_signed');
+    $config = array(
+        'from' => $from,
+        'to' => $to,
+        'subject' => $subject,
+        'message' => $message,
+        'smtpHost' => $smtpHost,
+        'smtpPort' => $smtpPort,
+        'smtpUser' => $smtpUser,
+        'smtpPass' => $smtpPass,
+        'security' => $security,
+        'allow_self_signed' => $allow_self_signed
+    );
     $_SESSION['smtpConfig'] = $config;
 
     try {
@@ -319,9 +330,9 @@ function send_cmd($socket, $cmd, $expected_response)
  *               - security: security type (default: tls)
  *               - allow_self_signed: allow self-signed certificates
  */
-function get_config(): array
+function get_config()
 {
-    $config = isset($_SESSION['smtpConfig']) ? $_SESSION['smtpConfig'] : [
+    $config = isset($_SESSION['smtpConfig']) ? $_SESSION['smtpConfig'] : array(
         'from' => '',
         'to' => '',
         'subject' => 'Test subject',
@@ -332,7 +343,7 @@ function get_config(): array
         'smtpPass' => '',
         'security' => 'tls',
         'allow_self_signed' => false
-    ];
+    );
 
     return $config;
 }
