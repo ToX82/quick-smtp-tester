@@ -3,7 +3,7 @@
 Quick SMTP Tester is a single-file PHP tool that helps you check if an email server (SMTP) works properly. It sends test emails and shows detailed messages to help fix problems, without needing extra libraries.
 
 ## What It Does
-- Sends test emails using different email servers.
+- Allows testing the configuration and functionality of any SMTP server for sending emails.
 - Helps you solve any issues if something goes wrong.
 - Easy to set up using a web page interface.
 
