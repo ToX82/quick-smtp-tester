@@ -215,13 +215,13 @@ function init()
     // Validate and clean input data
     $from = filter_input(INPUT_POST, 'from', FILTER_SANITIZE_EMAIL);
     $to = filter_input(INPUT_POST, 'to', FILTER_SANITIZE_EMAIL);
-    $subject = filter_input(INPUT_POST, 'subject', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
-    $smtpHost = filter_input(INPUT_POST, 'smtpHost', FILTER_SANITIZE_STRING);
+    $subject = trim(strip_tags($_POST['subject']));
+    $message = trim(strip_tags($_POST['message']));
+    $smtpHost = trim(strip_tags($_POST['smtpHost']));
     $smtpPort = filter_input(INPUT_POST, 'smtpPort', FILTER_VALIDATE_INT);
-    $smtpUser = filter_input(INPUT_POST, 'smtpUser', FILTER_SANITIZE_STRING);
-    $smtpPass = filter_input(INPUT_POST, 'smtpPass', FILTER_SANITIZE_STRING);
-    $security = filter_input(INPUT_POST, 'security', FILTER_SANITIZE_STRING);
+    $smtpUser = trim(strip_tags($_POST['smtpUser']));
+    $smtpPass = trim(strip_tags($_POST['smtpPass']));
+    $security = trim(strip_tags($_POST['security']));
     $allow_self_signed = filter_input(INPUT_POST, 'allow_self_signed', FILTER_VALIDATE_BOOLEAN);
 
     // Save cleaned data in session
